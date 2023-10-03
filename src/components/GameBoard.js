@@ -1,4 +1,5 @@
 import React from 'react';
+import Cell from './Cell';
 
 const GameBoard = ({ height, width }) => {
     const ROWS = height;
@@ -13,7 +14,11 @@ const GameBoard = ({ height, width }) => {
             {board.map((row, rowIndex) => (
                 <div className="flex" key={rowIndex}>
                     {row.map((cellData, cellIndex) => (
-                        <button className="bg-black h-5 w-5 border active:bg-gray-300" key={cellIndex}></button>
+                        <Cell
+                        key={cellIndex}
+                        data={cellData}
+                        rowIndex={rowIndex}
+                        cellIndex={cellIndex} />
                     ))}
                 </div>
             ))}
