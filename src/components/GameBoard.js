@@ -1,17 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import GameContext from './GameContext';
 import Cell from './Cell';
 
-const GameBoard = ({ height, width }) => {
-    const ROWS = height;
-    const COLS = width;
-
-    //2D-Array erstellen
-    const board = Array.from({length: ROWS}, () => Array(COLS).fill(null));
+const GameBoard = () => {
+    
+    const { gameField } = useContext(GameContext);
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
            <div>
-            {board.map((row, rowIndex) => (
+            {gameField.map((row, rowIndex) => (
                 <div className="flex" key={rowIndex}>
                     {row.map((cellData, cellIndex) => (
                         <Cell
