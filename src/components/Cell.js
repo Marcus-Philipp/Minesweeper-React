@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Cell = () => {
+const Cell = ({ data, rowIndex, cellIndex }) => {
+    
     return (
-        <div></div>
+        <div className="flex items-center justify-center cursor-default bg-gray-300 border h-6 w-6">
+            {data}
+        </div>
     );
 };
 
