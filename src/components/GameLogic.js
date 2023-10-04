@@ -21,20 +21,20 @@ const GameLogic = ({ children }) => {
 
 
     useEffect(() => {
-            //2D-Array erstellen
-            const initialField = Array.from({ length: difficulty.height }, () => Array(difficulty.width).fill(null));
-            //Minen zum Spielfeld hinzufuegen
-            const initialMines = placeMines(initialField, difficulty.mines, difficulty.height, difficulty.width);
-            //Spielfeld erstellen und Anzahl der Minen initialisieren
-            const newField = mineCounter(copyField(initialMines));
-            setGameField(newField);
-            //
-            setCellStates(
-                Array.from({ length: difficulty.height }, () =>
-                    Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
-                )
-            );
-        }, [difficulty]);
+        //2D-Array erstellen
+        const initialField = Array.from({ length: difficulty.height }, () => Array(difficulty.width).fill(null));
+        //Minen zum Spielfeld hinzufuegen
+        const initialMines = placeMines(initialField, difficulty.mines, difficulty.height, difficulty.width);
+        //Spielfeld erstellen und Anzahl der Minen initialisieren
+        const newField = mineCounter(copyField(initialMines));
+        setGameField(newField);
+        //
+        setCellStates(
+            Array.from({ length: difficulty.height }, () =>
+                Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
+            )
+        );
+    }, [difficulty]);
 
     //Minen im Feld platzieren
     const placeMines = (field, mines, height, width) => {
@@ -92,17 +92,34 @@ const GameLogic = ({ children }) => {
         const newCellStates = [...cellStates];
 
         if (!newCellStates[rowIndex][cellIndex].isFlagged) {
+            if (gameField[rowIndex][cellIndex] === ' ') {
+                floodFill(rowIndex, cellIndex, newCellStates);
+            }
             newCellStates[rowIndex][cellIndex].isRevealed = true;
         }
-
-        
 
         setCellStates(newCellStates);
     };
 
     //Sucht umliegende freie Felder und deckt diese auf
-    const emptyFields = (state) => {
-        
+    const floodFill = (rowIndex, cellIndex, states) => {
+        if (rowIndex < 0 || rowIndex >= difficulty.height || cellIndex < 0 || cellIndex >= difficulty.width) {
+            return;
+        }
+
+        if (states[rowIndex][cellIndex].isRevealed || states[rowIndex][cellIndex].isFlagged) {
+            return;
+        }
+
+        states[rowIndex][cellIndex].isRevealed = true;
+
+        if (gameField[rowIndex][cellIndex] === ' ') {
+            const surrounding = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
+            for (let [dy, dx] of surrounding) {
+                floodFill(rowIndex + dy, cellIndex + dx, states);
+            }
+        }
+
     };
 
 
