@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import GameContext from './GameContext';
-import GameBoard from './GameBoard';
 
-const GameLogic = () => {
+const GameLogic = ({ children }) => {
 
     //Schwierigkeitsstufen
     const DIFFICULTY = {
@@ -15,16 +14,27 @@ const GameLogic = () => {
 
     const [gameField, setGameField] = useState([]);
 
-    
+    const [cellStates, setCellStates] = useState(() =>
+        Array.from({ length: difficulty.height }, () =>
+            Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
+        ));
+
+
     useEffect(() => {
-        //2D-Array erstellen
-        const initialField = Array.from({ length: difficulty.height }, () => Array(difficulty.width).fill(null));
-        //Spielfeld erstellen
-        const initialMines = placeMines(initialField, difficulty.mines, difficulty.height, difficulty.width);
-        //Neues Spielfeld erstellen bei Aenderung der Schwierigkeit
-        const newField = mineCounter(copyField(initialMines));
-        setGameField(newField);
-    }, [difficulty]);
+            //2D-Array erstellen
+            const initialField = Array.from({ length: difficulty.height }, () => Array(difficulty.width).fill(null));
+            //Minen zum Spielfeld hinzufuegen
+            const initialMines = placeMines(initialField, difficulty.mines, difficulty.height, difficulty.width);
+            //Spielfeld erstellen und Anzahl der Minen initialisieren
+            const newField = mineCounter(copyField(initialMines));
+            setGameField(newField);
+            //
+            setCellStates(
+                Array.from({ length: difficulty.height }, () =>
+                    Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
+                )
+            );
+        }, [difficulty]);
 
     //Minen im Feld platzieren
     const placeMines = (field, mines, height, width) => {
@@ -77,9 +87,41 @@ const GameLogic = () => {
         return field;
     };
 
+    const handleCellClick = (rowIndex, cellIndex) => {
+
+        const newCellStates = [...cellStates];
+
+        if (!newCellStates[rowIndex][cellIndex].isFlagged) {
+            newCellStates[rowIndex][cellIndex].isRevealed = true;
+        }
+
+        
+
+        setCellStates(newCellStates);
+    };
+
+    //Sucht umliegende freie Felder und deckt diese auf
+    const emptyFields = (state) => {
+        
+    };
+
+
+    const handleRightClick = (rowIndex, cellIndex, event) => {
+        event.preventDefault();
+
+        const newCellStates = [...cellStates];
+
+        if (!newCellStates[rowIndex][cellIndex].isRevealed) {
+            newCellStates[rowIndex][cellIndex].isFlagged = !newCellStates[rowIndex][cellIndex].isFlagged;
+        }
+
+        setCellStates(newCellStates);
+    };
+
+
     return (
-        <GameContext.Provider value={{ gameField }}>
-            <GameBoard />
+        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY }}>
+            {children}
         </GameContext.Provider>
     );
 };

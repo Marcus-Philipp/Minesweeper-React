@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import GameContext from './GameContext';
 import Cell from './Cell';
+import ControlPanel from './ControlPanel';
 
 const GameBoard = () => {
     
@@ -8,6 +9,7 @@ const GameBoard = () => {
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
+            <ControlPanel />
            <div>
             {gameField.map((row, rowIndex) => (
                 <div className="flex" key={rowIndex}>
