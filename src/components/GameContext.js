@@ -13,6 +13,9 @@ const GameContext = React.createContext({
         //Liste der verbleibenden Minen im Spiel
         remainingMines: [],
 
+        //Anzahl der Minen die aufgedeckt wurden
+        countedMines: [],
+
         //Methode, um den vorherigen Spielstand aufzurufen
         handleWithdrawal: () => {},
 

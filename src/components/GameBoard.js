@@ -4,6 +4,7 @@ import Cell from './Cell';
 import ControlPanel from './ControlPanel';
 import MineCounter from './MineCounter';
 import Withdrawal from './Withdrawal';
+import ExposedMines from './ExposedMines';
 
 const GameBoard = () => {
 
@@ -14,6 +15,7 @@ const GameBoard = () => {
             <ControlPanel />
             <div>
                 <MineCounter />
+                <ExposedMines />
                 {gameField.map((row, rowIndex) => (
                     <div className="flex" key={rowIndex}>
                         {row.map((cellData, cellIndex) => (

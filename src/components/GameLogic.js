@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import GameContext from './GameContext';
 
 const GameLogic = ({ children }) => {
@@ -22,6 +22,8 @@ const GameLogic = ({ children }) => {
     //Zustand der Minen im Spielfeld/Flagge gesetzt uebrig gebliebene
     const [remainingMines, setRemainingMines] = useState(0);
 
+    const [countedMines, setCountedMines] = useState(0);
+
     //Zustand des vorherigen Spielfeldes
     const [prevCellStates, setPrevCellStates] = useState(null);
 
@@ -31,29 +33,32 @@ const GameLogic = ({ children }) => {
             Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
         ));
 
+    //Erzeugt einen Zustand der Zellen
+    const createInitialCellStates = useCallback(() => {
+        return Array.from({ length: difficulty.height }, () =>
+            Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
+        );
+    }, [difficulty.height, difficulty.width]);
 
-    //Wird beim initialisieren ausgefuehrt und sobald sich die Schwierigkeit aendert
-    useEffect(() => {
+    //Erzeugt ein nues Spielfeld und kann es auch zuruecksetzen
+    const resetGame = useCallback(() => {
 
         const initialField = Array.from({ length: difficulty.height }, () => Array(difficulty.width).fill(null));
-
         const initialMines = placeMines(initialField, difficulty.mines, difficulty.height, difficulty.width);
-
         const newField = numberCounter(copyField(initialMines));
 
         setGameField(newField);
-
         setRemainingMines(difficulty.mines)
-
-        setCellStates(
-            Array.from({ length: difficulty.height }, () =>
-                Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
-            )
-        );
-
+        setCountedMines(0);
+        setCellStates(createInitialCellStates());
         setGameOver(false);
 
-    }, [difficulty]);
+    }, [difficulty, createInitialCellStates]);
+
+    //Wird beim initialisieren ausgefuehrt und sobald sich die Schwierigkeit aendert oder das Spiel neu gestartet wird
+    useEffect(() => {
+        resetGame();
+    }, [resetGame]);
 
 
     //Minen im Feld platzieren
@@ -126,6 +131,7 @@ const GameLogic = ({ children }) => {
 
         if (gameField[rowIndex][cellIndex] === 'M') {
             setGameOver(true);
+            setCountedMines(prev => prev + 1);
             return;
         }
 
@@ -188,7 +194,7 @@ const GameLogic = ({ children }) => {
 
 
     return (
-        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY, remainingMines, handleWithdrawal }}>
+        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY, remainingMines, handleWithdrawal, countedMines }}>
             {children}
         </GameContext.Provider>
     );
