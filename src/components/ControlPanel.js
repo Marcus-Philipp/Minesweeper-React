@@ -6,8 +6,8 @@ const ControlPanel = () => {
     const { DIFFICULTY, setDifficulty } = useContext(GameContext);
 
     return (
-        <div>
-            <button onClick={() => setDifficulty(DIFFICULTY.Easy)}>Anfaenger</button>
+        <div className="space-x-5">
+            <button onClick={() => setDifficulty(DIFFICULTY.Easy)}>Anfänger</button>
             <button onClick={() => setDifficulty(DIFFICULTY.Medium)}>Fortgeschrittene</button>
             <button onClick={() => setDifficulty(DIFFICULTY.Hard)}>Profis</button>
         </div>

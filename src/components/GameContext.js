@@ -6,6 +6,7 @@ const GameContext = React.createContext({
         Medium: { height: 16, width: 16, mines: 40 },
         Hard: { height: 22, width: 22, mines: 99 }
         },
+        remainingMines: [],
         setDifficulty: () => {},
         gameField: [],
         cellStates: [], // speichert den Zustand jeder Zelle (z.B. aufgedeckt, markiert usw.)

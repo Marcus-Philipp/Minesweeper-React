@@ -14,6 +14,8 @@ const GameLogic = ({ children }) => {
 
     const [gameField, setGameField] = useState([]);
 
+    const [remainingMines, setRemainingMines] = useState(difficulty.mines);
+
     const [cellStates, setCellStates] = useState(() =>
         Array.from({ length: difficulty.height }, () =>
             Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
@@ -26,8 +28,9 @@ const GameLogic = ({ children }) => {
         //Minen zum Spielfeld hinzufuegen
         const initialMines = placeMines(initialField, difficulty.mines, difficulty.height, difficulty.width);
         //Spielfeld erstellen und Anzahl der Minen initialisieren
-        const newField = mineCounter(copyField(initialMines));
+        const newField = numberCounter(copyField(initialMines));
         setGameField(newField);
+        setRemainingMines(difficulty.mines)
         //
         setCellStates(
             Array.from({ length: difficulty.height }, () =>
@@ -60,7 +63,7 @@ const GameLogic = ({ children }) => {
     };
 
     //Sucht umliegende Minen und gibt der Zelle die entsprechende Nummer
-    const mineCounter = (field) => {
+    const numberCounter = (field) => {
         for (let i = 0; i < field.length; i++) {
             for (let j = 0; j < field[i].length; j++) {
 
@@ -130,6 +133,8 @@ const GameLogic = ({ children }) => {
 
         if (!newCellStates[rowIndex][cellIndex].isRevealed) {
             newCellStates[rowIndex][cellIndex].isFlagged = !newCellStates[rowIndex][cellIndex].isFlagged;
+
+            setRemainingMines(prev => newCellStates[rowIndex][cellIndex].isFlagged ? prev - 1 : prev + 1);
         }
 
         setCellStates(newCellStates);
@@ -137,7 +142,7 @@ const GameLogic = ({ children }) => {
 
 
     return (
-        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY }}>
+        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY, remainingMines }}>
             {children}
         </GameContext.Provider>
     );
