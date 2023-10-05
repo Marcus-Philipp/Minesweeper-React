@@ -3,10 +3,11 @@ import GameContext from './GameContext';
 import Cell from './Cell';
 import ControlPanel from './ControlPanel';
 import MineCounter from './MineCounter';
+import Withdrawal from './Withdrawal';
 
 const GameBoard = () => {
 
-    const { gameField } = useContext(GameContext);
+    const { gameField } = useContext(GameContext); // ruft das Spielfeld auf
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">
@@ -18,13 +19,14 @@ const GameBoard = () => {
                         {row.map((cellData, cellIndex) => (
                             <Cell
                                 key={cellIndex}
-                                data={cellData}
+                                cellValue={cellData}
                                 rowIndex={rowIndex}
                                 cellIndex={cellIndex} />
                         ))}
                     </div>
                 ))}
             </div>
+            <Withdrawal />
         </div>
     );
 };

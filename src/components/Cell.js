@@ -3,7 +3,7 @@ import GameContext from './GameContext';
 import Mine from '../mine-icon.png';
 import Flag from '../flag-icon.png';
 
-const Cell = ({ data, rowIndex, cellIndex }) => {
+const Cell = ({ cellValue, rowIndex, cellIndex }) => {
 
     const { cellStates, handleCellClick, handleRightClick } = useContext(GameContext);
 
@@ -23,7 +23,7 @@ const Cell = ({ data, rowIndex, cellIndex }) => {
         };
 
         if (content === 'M') {
-            return <img src={Mine} alt='Mine' />;
+            return <img src={Mine} alt='Minenicon' />;
         } else if (typeof content === 'number') {
             return <span className={`text-${colors[content]}-500 font-bold`}>{content}</span>;
         } else {
@@ -36,7 +36,7 @@ const Cell = ({ data, rowIndex, cellIndex }) => {
             className="flex items-center justify-center cursor-default bg-gray-300 border h-6 w-6"
             onClick={() => handleCellClick(rowIndex, cellIndex)}
             onContextMenu={(event) => handleRightClick(rowIndex, cellIndex, event)}>
-            {currentCellState.isFlagged ? <img src={Flag} alt='flag'/> : currentCellState.isRevealed ? displayContent(data) : <div className="h-5 w-5 bg-green-500"></div>}
+            {currentCellState.isFlagged ? <img src={Flag} alt='flagicon'/> : currentCellState.isRevealed ? displayContent(cellValue) : <div className="h-5 w-5 bg-green-500"></div>}
         </div>
     );
 };
