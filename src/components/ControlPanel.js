@@ -3,7 +3,7 @@ import GameContext from './GameContext';
 
 const ControlPanel = () => {
 
-    const { DIFFICULTY, setDifficulty } = useContext(GameContext);
+    const { DIFFICULTY, setDifficulty } = useContext(GameContext); //Holt sich die aktuelle Schwierigkeitsstufe aus dem Kontext und die Setter Funktion
 
     return (
         <div className="space-x-5">

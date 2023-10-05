@@ -7,7 +7,7 @@ import Withdrawal from './Withdrawal';
 
 const GameBoard = () => {
 
-    const { gameField } = useContext(GameContext); // ruft das Spielfeld auf
+    const { gameField } = useContext(GameContext); //Holt sich das Spielfeld aus dem Kontext
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen">

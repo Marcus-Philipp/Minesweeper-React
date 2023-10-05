@@ -3,8 +3,8 @@ import GameContext from './GameContext';
 
 const Withdrawal = () => {
 
-    const { handleWithdrawal } = useContext(GameContext);
-    
+    const { handleWithdrawal } = useContext(GameContext); //Holt sich die Funktion aus dem Kontext
+
     return (
         <div>
             <button onClick={handleWithdrawal}>Zurueck</button>

@@ -5,12 +5,15 @@ import Flag from '../flag-icon.png';
 
 const Cell = ({ cellValue, rowIndex, cellIndex }) => {
 
+    //Holt sich die benoetigten Daten und Werte aus dem Kontext
     const { cellStates, handleCellClick, handleRightClick } = useContext(GameContext);
 
     const currentCellState = cellStates[rowIndex][cellIndex];
 
+    //Funktion wie der Inhalt einer Zelle auszusehen hat
     const displayContent = (content) => {
-
+        
+        //Farbkodierung fuer Zahlen
         const colors = {
             1: 'blue',
             2: 'green',
