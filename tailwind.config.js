@@ -11,7 +11,7 @@ module.exports = {
         'text-yellow-500', 
         'text-violet-500', 
         'text-gray-500', 
-        'text-pink-500'
+        'text-pink-500',
       ],
     },
   },

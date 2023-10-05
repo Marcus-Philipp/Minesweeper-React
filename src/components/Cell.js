@@ -28,7 +28,7 @@ const Cell = ({ cellValue, rowIndex, cellIndex }) => {
         if (content === 'M') {
             return <img src={Mine} alt='Minenicon' />;
         } else if (typeof content === 'number') {
-            return <span className={`text-${colors[content]}-500 font-bold`}>{content}</span>;
+            return <span className={`text-${colors[content]}-500 font-bold text-2xl`}>{content}</span>;
         } else {
             return content;
         }
@@ -36,10 +36,10 @@ const Cell = ({ cellValue, rowIndex, cellIndex }) => {
 
     return (
         <div
-            className="flex items-center justify-center cursor-default bg-gray-300 border h-6 w-6"
+            className="flex items-center justify-center cursor-default h-7 w-7 bg-gray-300 border"
             onClick={() => handleCellClick(rowIndex, cellIndex)}
             onContextMenu={(event) => handleRightClick(rowIndex, cellIndex, event)}>
-            {currentCellState.isFlagged ? <img src={Flag} alt='flagicon'/> : currentCellState.isRevealed ? displayContent(cellValue) : <div className="h-5 w-5 bg-green-500"></div>}
+            {currentCellState.isFlagged ? <img src={Flag} alt='flagicon'/> : currentCellState.isRevealed ? displayContent(cellValue) : <div className="h-6 w-6 bg-slate-600"></div>}
         </div>
     );
 };
