@@ -1,5 +1,7 @@
 Minesweeper-React
 
+https://minesweeper-2023-react.netlify.app/
+
 Das klassische Minesweeper-Spiel, entwickelt mit React.
 
 Spielanleitung:
