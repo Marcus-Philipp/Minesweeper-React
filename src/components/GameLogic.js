@@ -22,16 +22,11 @@ const GameLogic = ({ children }) => {
     //Zustand der Minen im Spielfeld/Flagge gesetzt uebrig gebliebene
     const [remainingMines, setRemainingMines] = useState(0);
 
+    //Zustand der aufgdeckten Minen
     const [countedMines, setCountedMines] = useState(0);
 
     //Zustand des vorherigen Spielfeldes
     const [prevCellStates, setPrevCellStates] = useState(null);
-
-    //Zustand des aktuellen Spielfeldes
-    const [cellStates, setCellStates] = useState(() =>
-        Array.from({ length: difficulty.height }, () =>
-            Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
-        ));
 
     //Erzeugt einen Zustand der Zellen
     const createInitialCellStates = useCallback(() => {
@@ -39,6 +34,9 @@ const GameLogic = ({ children }) => {
             Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
         );
     }, [difficulty.height, difficulty.width]);
+
+    //Zustand des aktuellen Spielfeldes
+    const [cellStates, setCellStates] = useState(createInitialCellStates);
 
     //Erzeugt ein nues Spielfeld und kann es auch zuruecksetzen
     const resetGame = useCallback(() => {
@@ -77,7 +75,6 @@ const GameLogic = ({ children }) => {
 
         return field;
     };
-
 
     //Flache Kopie des Spielfeldes erstellen
     const copyField = (originalField) => {
@@ -133,6 +130,10 @@ const GameLogic = ({ children }) => {
             setGameOver(true);
             setCountedMines(prev => prev + 1);
             return;
+        }
+
+        if (fieldChecker(newCellStates)) {
+           uncoverFields(newCellStates);
         }
 
         setCellStates(newCellStates);
@@ -192,6 +193,31 @@ const GameLogic = ({ children }) => {
         setPrevCellStates(deepCopy);
     };
 
+    //Zaehlt alle aufgedeckten Felder
+    const fieldChecker = () => {
+        for (let row = 0; row < cellStates.length; row++) {
+            for (let col = 0; col < cellStates[row].length; col++) {
+                if (!cellStates[row][col].isRevealed) {
+                    if (gameField[row][col] !== 'M') {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    };
+
+    //Deckt alle Felder auf in denen Minen sind
+    const uncoverFields = (cellStatesCopy) => {
+        for (let row = 0; row < cellStatesCopy.length; row++) {
+            for (let col = 0; col < cellStatesCopy[row].length; col++) {
+                if (gameField[row][col] === 'M') {
+                  cellStatesCopy[row][col].isRevealed = true; 
+                }
+            }
+        }
+        setCellStates(cellStatesCopy);
+    };
 
     return (
         <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY, remainingMines, handleWithdrawal, countedMines }}>
