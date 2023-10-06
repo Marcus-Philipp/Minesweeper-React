@@ -33,6 +33,9 @@ const GameContext = React.createContext({
 
         //Methode, die aufgerufen wird, wenn mit der rechten Maustaste auf eine Zelle geklickt wird
         handleRightClick: () => {},
+
+        //Methode, die aufgerufen wird, wenn der Playbutton betaetigt wird
+        resetGame: () => {}
     });
 
 export default GameContext;

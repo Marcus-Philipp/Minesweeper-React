@@ -5,17 +5,20 @@ import ControlPanel from './ControlPanel';
 import MineCounter from './MineCounter';
 import Withdrawal from './Withdrawal';
 import ExposedMines from './ExposedMines';
+import PlayButton from './PlayButton';
 
 const GameBoard = () => {
 
-    const { gameField } = useContext(GameContext); //Holt sich das Spielfeld aus dem Kontext
+    //Holt sich das Spielfeld aus dem Kontext
+    const { gameField } = useContext(GameContext);
 
     return (
         <div className="flex flex-col justify-center items-center min-h-screen bg-green-50">
             <ControlPanel />
+            <PlayButton />
             <div>
-                <MineCounter />
-                <ExposedMines />
+                <div className="flex items-center justify-between"><MineCounter />
+                    <ExposedMines /></div>
                 {gameField.map((row, rowIndex) => (
                     <div className="flex" key={rowIndex}>
                         {row.map((cellData, cellIndex) => (

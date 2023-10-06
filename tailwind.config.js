@@ -16,12 +16,7 @@ module.exports = {
     },
   },
   theme: {
-    extend: {
-      backgroundImage: {
-        'mine-pattern': "url('../mine-icon.png')",
-        'flag-pattern': "url('../flag-icon.png')"
-      }
-    },
+    extend: {},
   },
   plugins: [],
 }

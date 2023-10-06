@@ -10,6 +10,15 @@ const Cell = ({ cellValue, rowIndex, cellIndex }) => {
 
     const currentCellState = cellStates[rowIndex][cellIndex];
 
+    //Funktion um die Hintergrundfarbe der Minen anzuzeigen
+    const backgroundMines = () => {
+        if (currentCellState.isRevealed && cellValue === 'M') {
+            return "bg-red-600";
+        } else {
+            return "bg-slate-300";
+        }
+    };
+
     //Funktion wie der Inhalt einer Zelle auszusehen hat
     const displayContent = (content) => {
         
@@ -36,10 +45,10 @@ const Cell = ({ cellValue, rowIndex, cellIndex }) => {
 
     return (
         <div
-            className="flex items-center justify-center cursor-default h-7 w-7 bg-gray-300 border"
+            className={`flex items-center justify-center cursor-default lg:h-7 lg:w-7 border ${backgroundMines()}`}
             onClick={() => handleCellClick(rowIndex, cellIndex)}
             onContextMenu={(event) => handleRightClick(rowIndex, cellIndex, event)}>
-            {currentCellState.isFlagged ? <img src={Flag} alt='flagicon'/> : currentCellState.isRevealed ? displayContent(cellValue) : <div className="h-6 w-6 bg-slate-600"></div>}
+            {currentCellState.isFlagged ? <img src={Flag} alt='flagicon'/> : currentCellState.isRevealed ? displayContent(cellValue) : <div className=" lg:h-6 lg:w-6 bg-slate-600 hover:bg-slate-800"></div>}
         </div>
     );
 };

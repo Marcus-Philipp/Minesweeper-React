@@ -1,13 +1,17 @@
 import React, { useContext } from 'react';
 import GameContext from './GameContext';
+import Arrow from '../Removed.png';
 
 const Withdrawal = () => {
 
-    const { handleWithdrawal } = useContext(GameContext); //Holt sich die Funktion aus dem Kontext
+    //Holt sich die Funktion aus dem Kontext
+    const { handleWithdrawal } = useContext(GameContext);
 
     return (
         <div>
-            <button onClick={handleWithdrawal}>Zurueck</button>
+            <button className="bg-red-500 rounded hover:bg-red-600" onClick={handleWithdrawal}>
+                <img className="h-9 w-12" src={Arrow} alt="Pfeil zurueck" />
+            </button>
         </div>
     );
 };

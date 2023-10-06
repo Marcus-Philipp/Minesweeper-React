@@ -1,25 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import GameContext from './GameContext';
 
+const SURROUNDING_CELLS = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
+
 const GameLogic = ({ children }) => {
 
     //Schwierigkeitsstufen + Eigenschaften
     const DIFFICULTY = {
         Easy: { height: 10, width: 10, mines: 10 },
         Medium: { height: 16, width: 16, mines: 40 },
-        Hard: { height: 22, width: 22, mines: 99 }
+        Hard: { height: 20, width: 24, mines: 99 }
     };
 
-    const SURROUNDING_CELLS = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
+    //Zustand des Spielfeldes
+    const [gameField, setGameField] = useState([]);
 
     //Zustand ob das Spiel laeuft oder zu Ende ist
     const [gameOver, setGameOver] = useState(false);
 
     //Zustand der Schwierigkeit/groesse des Feldes
     const [difficulty, setDifficulty] = useState(DIFFICULTY.Easy);
-
-    //Zustand des Spielfeldes
-    const [gameField, setGameField] = useState([]);
 
     //Zustand der Minen im Spielfeld/Flagge gesetzt uebrig gebliebene
     const [remainingMines, setRemainingMines] = useState(0);
@@ -29,7 +29,6 @@ const GameLogic = ({ children }) => {
 
     //Zustand des vorherigen Spielfeldes
     const [prevCellStates, setPrevCellStates] = useState(null);
-    
 
     //Erzeugt einen Zustand der Zellen
     const createInitialCellStates = useCallback(() => {
@@ -37,6 +36,9 @@ const GameLogic = ({ children }) => {
             Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
         );
     }, [difficulty.height, difficulty.width]);
+
+    //Zustand des aktuellen Spielfeldes
+    const [cellStates, setCellStates] = useState(createInitialCellStates);
 
     //Erzeugt ein nues Spielfeld und kann es auch zuruecksetzen
     const resetGame = useCallback(() => {
@@ -52,7 +54,12 @@ const GameLogic = ({ children }) => {
         setGameOver(false);
 
     }, [difficulty, createInitialCellStates]);
-    
+
+    //Wird beim initialisieren ausgefuehrt und sobald sich die Schwierigkeit aendert oder das Spiel neu gestartet wird
+    useEffect(() => {
+        resetGame();
+    }, [resetGame]);
+
 
     //Minen im Feld platzieren
     const placeMines = (field, mines, height, width) => {
@@ -103,12 +110,6 @@ const GameLogic = ({ children }) => {
         return field;
     };
 
-    //Wird beim initialisieren ausgefuehrt und sobald sich die Schwierigkeit aendert oder das Spiel neu gestartet wird
-    useEffect(() => {
-        resetGame();
-    }, [resetGame]);
-
-
     //Funktion um die zugedeckten Felder aufzudecken
     const handleCellClick = (rowIndex, cellIndex) => {
         if (gameOver) {
@@ -133,7 +134,7 @@ const GameLogic = ({ children }) => {
         }
 
         if (fieldChecker(newCellStates)) {
-            uncoverFields(newCellStates);
+           uncoverFields(newCellStates);
         }
 
         setCellStates(newCellStates);
@@ -193,10 +194,10 @@ const GameLogic = ({ children }) => {
     };
 
     //Zaehlt alle aufgedeckten Felder
-    const fieldChecker = () => {
-        for (let row = 0; row < cellStates.length; row++) {
-            for (let col = 0; col < cellStates[row].length; col++) {
-                if (!cellStates[row][col].isRevealed) {
+    const fieldChecker = (cellStatesCopy) => {
+        for (let row = 0; row < cellStatesCopy.length; row++) {
+            for (let col = 0; col < cellStatesCopy[row].length; col++) {
+                if (!cellStatesCopy[row][col].isRevealed) {
                     if (gameField[row][col] !== 'M') {
                         return false;
                     }
@@ -211,7 +212,10 @@ const GameLogic = ({ children }) => {
         for (let row = 0; row < cellStatesCopy.length; row++) {
             for (let col = 0; col < cellStatesCopy[row].length; col++) {
                 if (gameField[row][col] === 'M') {
-                    cellStatesCopy[row][col].isRevealed = true;
+                  cellStatesCopy[row][col].isRevealed = true;  
+                } 
+                if (cellStatesCopy[row][col].isFlagged) {
+                    cellStatesCopy[row][col].isFlagged = false;
                 }
             }
         }
@@ -219,7 +223,7 @@ const GameLogic = ({ children }) => {
     };
 
     return (
-        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY, remainingMines, handleWithdrawal, countedMines }}>
+        <GameContext.Provider value={{ gameField, cellStates, handleCellClick, handleRightClick, difficulty, setDifficulty, DIFFICULTY, remainingMines, handleWithdrawal, countedMines, resetGame }}>
             {children}
         </GameContext.Provider>
     );

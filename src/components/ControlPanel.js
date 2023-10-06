@@ -3,13 +3,14 @@ import GameContext from './GameContext';
 
 const ControlPanel = () => {
 
-    const { DIFFICULTY, setDifficulty } = useContext(GameContext); //Holt sich die aktuelle Schwierigkeitsstufe aus dem Kontext und die Setter Funktion
+    //Holt sich die aktuelle Schwierigkeitsstufe aus dem Kontext und die Setter Funktion
+    const { DIFFICULTY, setDifficulty } = useContext(GameContext);
 
     return (
-        <div className="space-x-5">
-            <button onClick={() => setDifficulty(DIFFICULTY.Easy)}>Anfänger</button>
-            <button onClick={() => setDifficulty(DIFFICULTY.Medium)}>Fortgeschrittene</button>
-            <button onClick={() => setDifficulty(DIFFICULTY.Hard)}>Profis</button>
+        <div className="space-x-5 mb-2 font-bold">
+            <button className="transform hover:scale-105" onClick={() => setDifficulty(DIFFICULTY.Easy)}>Anfänger</button>
+            <button className="transform hover:scale-105" onClick={() => setDifficulty(DIFFICULTY.Medium)}>Fortgeschrittene</button>
+            <button className="transform hover:scale-105" onClick={() => setDifficulty(DIFFICULTY.Hard)}>Profis</button>
         </div>
     );
 };
