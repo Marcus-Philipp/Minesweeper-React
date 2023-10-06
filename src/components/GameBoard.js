@@ -17,7 +17,7 @@ const GameBoard = () => {
             <ControlPanel />
             <PlayButton />
             <div>
-                <div className="flex items-center justify-between"><MineCounter />
+                <div className="flex flex-col items-center justify-between lg:flex-row"><MineCounter />
                     <ExposedMines /></div>
                 {gameField.map((row, rowIndex) => (
                     <div className="flex" key={rowIndex}>

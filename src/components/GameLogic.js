@@ -1,15 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import GameContext from './GameContext';
 
+//umliegende Zellen deklariert
 const SURROUNDING_CELLS = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
 
 const GameLogic = ({ children }) => {
+
+    //React Responsive MediaQuery deklariert
+    const isMobile = useMediaQuery({query: '(max-width: 768px)'});
 
     //Schwierigkeitsstufen + Eigenschaften
     const DIFFICULTY = {
         Easy: { height: 10, width: 10, mines: 10 },
         Medium: { height: 16, width: 16, mines: 40 },
-        Hard: { height: 20, width: 24, mines: 99 }
+        Hard: isMobile ? { height: 24, width: 19, mines: 99 } : { height: 20, width: 24, mines: 99 }
     };
 
     //Zustand des Spielfeldes

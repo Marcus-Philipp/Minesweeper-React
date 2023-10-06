@@ -10,7 +10,7 @@ const Withdrawal = () => {
     return (
         <div>
             <button className="bg-red-500 rounded hover:bg-red-600" onClick={handleWithdrawal}>
-                <img className="h-9 w-12" src={Arrow} alt="Pfeil zurueck" />
+                <img className="h-6 w-9 lg:h-9 lg:w-12" src={Arrow} alt="Pfeil zurueck" />
             </button>
         </div>
     );
