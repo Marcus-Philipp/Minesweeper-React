@@ -10,6 +10,8 @@ const GameLogic = ({ children }) => {
         Hard: { height: 22, width: 22, mines: 99 }
     };
 
+    const SURROUNDING_CELLS = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
+
     //Zustand ob das Spiel laeuft oder zu Ende ist
     const [gameOver, setGameOver] = useState(false);
 
@@ -27,6 +29,7 @@ const GameLogic = ({ children }) => {
 
     //Zustand des vorherigen Spielfeldes
     const [prevCellStates, setPrevCellStates] = useState(null);
+    
 
     //Erzeugt einen Zustand der Zellen
     const createInitialCellStates = useCallback(() => {
@@ -34,9 +37,6 @@ const GameLogic = ({ children }) => {
             Array.from({ length: difficulty.width }, () => ({ isRevealed: false, isFlagged: false }))
         );
     }, [difficulty.height, difficulty.width]);
-
-    //Zustand des aktuellen Spielfeldes
-    const [cellStates, setCellStates] = useState(createInitialCellStates);
 
     //Erzeugt ein nues Spielfeld und kann es auch zuruecksetzen
     const resetGame = useCallback(() => {
@@ -52,12 +52,7 @@ const GameLogic = ({ children }) => {
         setGameOver(false);
 
     }, [difficulty, createInitialCellStates]);
-
-    //Wird beim initialisieren ausgefuehrt und sobald sich die Schwierigkeit aendert oder das Spiel neu gestartet wird
-    useEffect(() => {
-        resetGame();
-    }, [resetGame]);
-
+    
 
     //Minen im Feld platzieren
     const placeMines = (field, mines, height, width) => {
@@ -87,9 +82,8 @@ const GameLogic = ({ children }) => {
             for (let j = 0; j < field[i].length; j++) {
 
                 if (field[i][j] !== 'M') {
-                    const surrounding = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
                     let count = 0;
-                    for (let [dy, dx] of surrounding) {
+                    for (let [dy, dx] of SURROUNDING_CELLS) {
                         let newI = i + dy;
                         let newJ = j + dx;
                         if (newI >= 0 && newI < field.length && newJ >= 0 && newJ < field[i].length && field[newI][newJ] === 'M') {
@@ -108,6 +102,12 @@ const GameLogic = ({ children }) => {
 
         return field;
     };
+
+    //Wird beim initialisieren ausgefuehrt und sobald sich die Schwierigkeit aendert oder das Spiel neu gestartet wird
+    useEffect(() => {
+        resetGame();
+    }, [resetGame]);
+
 
     //Funktion um die zugedeckten Felder aufzudecken
     const handleCellClick = (rowIndex, cellIndex) => {
@@ -133,7 +133,7 @@ const GameLogic = ({ children }) => {
         }
 
         if (fieldChecker(newCellStates)) {
-           uncoverFields(newCellStates);
+            uncoverFields(newCellStates);
         }
 
         setCellStates(newCellStates);
@@ -152,8 +152,7 @@ const GameLogic = ({ children }) => {
         states[rowIndex][cellIndex].isRevealed = true;
 
         if (gameField[rowIndex][cellIndex] === ' ') {
-            const surrounding = [[0, 1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [1, -1], [1, 0], [1, 1]];
-            for (let [dy, dx] of surrounding) {
+            for (let [dy, dx] of SURROUNDING_CELLS) {
                 floodFill(rowIndex + dy, cellIndex + dx, states);
             }
         }
@@ -212,7 +211,7 @@ const GameLogic = ({ children }) => {
         for (let row = 0; row < cellStatesCopy.length; row++) {
             for (let col = 0; col < cellStatesCopy[row].length; col++) {
                 if (gameField[row][col] === 'M') {
-                  cellStatesCopy[row][col].isRevealed = true; 
+                    cellStatesCopy[row][col].isRevealed = true;
                 }
             }
         }
