@@ -15,7 +15,7 @@ const Cell = ({ cellValue, rowIndex, cellIndex }) => {
         if (currentCellState.isRevealed && cellValue === 'M') {
             return "bg-red-600";
         } else {
-            return "bg-slate-300";
+            return "bg-yellow-200";
         }
     };
 

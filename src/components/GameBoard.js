@@ -19,7 +19,7 @@ const GameBoard = () => {
   return (
     <div className="flex flex-col flex-1 justify-start items-center min-h-screen md:flex-row">
       <Logo />
-      <div className="flex flex-col justify-center items-center bg-green-50">
+      <div className="flex flex-col justify-center items-center">
         <ControlPanel />
         <PlayButton />
         <div>

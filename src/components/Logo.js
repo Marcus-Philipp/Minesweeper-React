@@ -12,7 +12,7 @@ const Logo = () => {
       <img src={MinesweeperLogo} alt="Minesweeper-Logo" />
     </div>
   ) : (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center bg-">
       <h1 className="font-bold text-2xl bg-gradient-to-r from-red-500 via-red-300 to-red-500 rounded">MINESWEEPER</h1>
       <img src={MinesweeperLogo} alt="Minesweeper-Logo" />
     </div>
