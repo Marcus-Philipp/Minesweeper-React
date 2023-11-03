@@ -17,7 +17,7 @@ const GameBoard = () => {
   const isDesktop = useMediaQuery({ query: '(min-width: 600px)' });
 
   return (
-    <div className="flex flex-col flex-1 justify-start items-center min-h-screen md:flex-row">
+    <div className="flex flex-col flex-1 justify-start items-center min-h-screen bg-green-600 md:flex-row">
       <Logo />
       <div className="flex flex-col justify-center items-center">
         <ControlPanel />
