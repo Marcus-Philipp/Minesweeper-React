@@ -6,18 +6,20 @@ import MineCounter from "./MineCounter";
 import Withdrawal from "./Withdrawal";
 import ExposedMines from "./ExposedMines";
 import PlayButton from "./PlayButton";
-import MinesweeperLogo from "../Minesweeper-logo.png";
+import Logo from './Logo';
+import { useMediaQuery } from "react-responsive";
 
 const GameBoard = () => {
   //Holt sich das Spielfeld aus dem Kontext
   const { gameField } = useContext(GameContext);
 
+  //React Responsive MediaQuery deklariert
+  const isDesktop = useMediaQuery({ query: '(min-width: 600px)' });
+
   return (
-    <div className="flex justify-center items-center">
-      <div>
-        <img src={MinesweeperLogo} alt="Minesweeper-Logo" />
-      </div>
-      <div className="flex flex-col justify-center items-center min-h-screen bg-green-50">
+    <div className="flex flex-col flex-1 justify-start items-center min-h-screen md:flex-row">
+      <Logo />
+      <div className="flex flex-col justify-center items-center bg-green-50">
         <ControlPanel />
         <PlayButton />
         <div>
@@ -40,9 +42,7 @@ const GameBoard = () => {
         </div>
         <Withdrawal />
       </div>
-      <div>
-        <img src={MinesweeperLogo} alt="Minesweeper-Logo" />
-      </div>
+      {isDesktop && <Logo />}
     </div>
   );
 };
