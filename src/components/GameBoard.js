@@ -10,6 +10,7 @@ import Logo from './Logo';
 import { useMediaQuery } from "react-responsive";
 
 const GameBoard = () => {
+  
   //Holt sich das Spielfeld aus dem Kontext
   const { gameField } = useContext(GameContext);
 
