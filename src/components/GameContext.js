@@ -1,7 +1,7 @@
-import React from "react";
+import { createContext } from "react";
 
 //Erstellt einen Kontext fuer das Spiel
-const GameContext = React.createContext({
+const GameContext = createContext({
         
         //Schwierigkeitsstufen fuer das Spiel, Groesse und Minenanzahl
         DIFFICULTY: {
