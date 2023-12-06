@@ -7,7 +7,7 @@ const PlayButton = () => {
     const { resetGame } = useContext(GameContext);
     
     return (
-        <div>
+        <div className="flex items-center justify-center">
             <button className="h-12 w-12" onClick={() => resetGame()}>
                 <img src={Button} alt="Playbutton" />
             </button>
