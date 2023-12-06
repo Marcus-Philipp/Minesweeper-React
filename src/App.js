@@ -1,3 +1,4 @@
+import React from "react";
 import GameLogic from "./components/GameLogic";
 import GameBoard from "./components/GameBoard";
 import Logo from "./components/Logo";
