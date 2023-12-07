@@ -8,22 +8,21 @@ import ExposedMines from "./components/ExposedMines";
 import MineCounter from "./components/MineCounter";
 import Withdrawal from "./components/Withdrawal";
 
-//Benutzung von Lazy Loading um das laden der Logos zu optimieren 
+//Benutzung von Lazy Loading um das laden der Logos zu optimieren
 const Logo = lazy(() => import("./components/Logo"));
 
 function App() {
-
   //React Responsive MediaQuery deklariert
   const isDesktop = useMediaQuery({ query: "(min-width: 600px)" });
 
   return (
     <GameLogic>
-      <Suspense
-        fallback={
-          <div className="bg-green-600 w-[580px] h-[322px]"></div>
-        }
-      >
-        <div className="flex flex-col flex-1 justify-start items-center min-h-screen bg-green-600 md:flex-row">
+      <div className="flex flex-col flex-1 justify-start items-center min-h-screen bg-green-600 md:flex-row">
+        <Suspense
+          fallback={
+            <div className="bg-green-600 w-[620px] h-[320px] text-transparent">Loading</div>
+          }
+        >
           <Logo />
           <div>
             <ControlPanel />
@@ -36,8 +35,8 @@ function App() {
             <Withdrawal />
           </div>
           {isDesktop && <Logo />}
-        </div>
-      </Suspense>
+        </Suspense>
+      </div>
     </GameLogic>
   );
 }
