@@ -3,7 +3,7 @@ import GameContext from "./GameContext";
 import Cell from "./Cell";
 
 const GameBoard = () => {
-  
+
   //Holt sich das Spielfeld aus dem Kontext
   const { gameField } = useContext(GameContext);
 

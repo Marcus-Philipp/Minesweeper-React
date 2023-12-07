@@ -1,6 +1,7 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import GameLogic from "./components/GameLogic";
 import GameBoard from "./components/GameBoard";
+import Logo from "./components/Logo";
 import { useMediaQuery } from "react-responsive";
 import ControlPanel from "./components/ControlPanel";
 import PlayButton from "./components/PlayButton";
@@ -8,8 +9,6 @@ import ExposedMines from "./components/ExposedMines";
 import MineCounter from "./components/MineCounter";
 import Withdrawal from "./components/Withdrawal";
 
-//Benutzung von Lazy Loading um das laden der Logos zu optimieren
-const Logo = lazy(() => import("./components/Logo"));
 
 function App() {
   //React Responsive MediaQuery deklariert
@@ -17,12 +16,7 @@ function App() {
 
   return (
     <GameLogic>
-      <div className="flex flex-col flex-1 justify-start items-center min-h-screen bg-green-600 md:flex-row">
-        <Suspense
-          fallback={
-            <div className="bg-green-600 w-[620px] h-[320px] text-transparent">Loading</div>
-          }
-        >
+      <div className="flex flex-col justify-start items-center min-h-screen bg-green-600 md:flex-row md:justify-center">
           <Logo />
           <div>
             <ControlPanel />
@@ -35,7 +29,6 @@ function App() {
             <Withdrawal />
           </div>
           {isDesktop && <Logo />}
-        </Suspense>
       </div>
     </GameLogic>
   );
