@@ -3,6 +3,7 @@ import GameContext from "./GameContext";
 import Mine from "../mine-icon.png";
 
 const MineCounter = () => {
+  
   //Holt sich den Zustand der Minen aus dem Kontext
   const { remainingMines } = useContext(GameContext);
 

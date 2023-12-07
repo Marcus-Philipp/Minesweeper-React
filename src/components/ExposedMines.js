@@ -3,6 +3,7 @@ import GameContext from "./GameContext";
 import Mine from "../mine-icon.png";
 
 const ExposedMines = () => {
+  
   //Holt sich die Anzahl der aufgedeckten Minen aus dem Kontext
   const { countedMines } = useContext(GameContext);
 

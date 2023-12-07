@@ -4,6 +4,7 @@ import Button from '../play.png';
 
 const PlayButton = () => {
     
+    //Holt sich Funktion aus dem Kontext
     const { resetGame } = useContext(GameContext);
     
     return (
