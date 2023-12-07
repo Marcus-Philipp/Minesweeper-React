@@ -12,7 +12,7 @@ import Withdrawal from "./components/Withdrawal";
 const Logo = lazy(() => import("./components/Logo"));
 
 function App() {
-  
+
   //React Responsive MediaQuery deklariert
   const isDesktop = useMediaQuery({ query: "(min-width: 600px)" });
 
@@ -20,9 +20,7 @@ function App() {
     <GameLogic>
       <Suspense
         fallback={
-          <p className="flex justify-center min-h-screen">
-            Loading...
-          </p>
+          <div className="bg-green-600 w-[580px] h-[322px]"></div>
         }
       >
         <div className="flex flex-col flex-1 justify-start items-center min-h-screen bg-green-600 md:flex-row">
