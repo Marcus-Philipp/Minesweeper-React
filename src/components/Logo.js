@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MinesweeperLogo from "../Minesweeper-logo.png";
 import { useMediaQuery } from "react-responsive";
 
 const Logo = () => {
   //React Responsive MediaQuery deklariert
   const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+     const img = new Image();
+     img.src = MinesweeperLogo;
+
+     img.onload = () => {
+      setIsLoading(false);
+     }
+  }, []);
+
+  if(isLoading) {
+    return <p className="invisible">Loading...</p>
+  }
 
   return isMobile ? (
     <div className="flex w-12 justify-center pb-5">
